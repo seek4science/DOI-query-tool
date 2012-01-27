@@ -1,0 +1,14 @@
+DoiQueryTool
+============
+
+Download doi publication metadata from crossref.org.
+
+
+Example
+=======
+
+doi = "10.1007/978-3-540-70504-8_9"
+query = DoiQuery.new("me@somewhere.com")
+result = query.fetch(doi)
+
+Copyright 2012 University of Manchester, released under the MIT license
