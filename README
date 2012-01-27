@@ -14,4 +14,11 @@ result = query.fetch(doi)
 puts result.authors.first.first_name
 puts result.title
 puts result.date_published
+
+Authors
+=======
+
+Finn Bacall
+Ian Dunlop
+
 Copyright 2012 University of Manchester, released under the MIT license
