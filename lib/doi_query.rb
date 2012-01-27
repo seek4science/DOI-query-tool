@@ -1,6 +1,8 @@
 require 'rubygems'
+require "addressable/uri"
 require 'xml'
 require 'open-uri'
+require 'date'
 
 class DoiQuery
   attr_accessor :api_key
@@ -18,7 +20,9 @@ class DoiQuery
       params[:id] = "doi:" + id unless params[:id]
       params[:pid] = self.api_key unless params[:pid]
       params[:noredirect] = true
-      url = FETCH_URL + "?" + params.delete_if{|k,v| k.nil?}.to_param
+      uri = Addressable::URI.new
+      uri.query_values = params.delete_if{|k,v| k.nil?}
+      url = FETCH_URL + "?" + uri.query
       doc = query(url)
       return parse_xml(doc)
     rescue
@@ -61,7 +65,8 @@ class DoiQuery
         title = article.find_first('//content_item/titles/title')
         params[:title] = title.nil? ? nil : title.content
         params[:authors] = []
-        article.find('.//contributors/person_name').each do |author|
+        authors = article.find('.//contributors/person_name')
+        authors.each do |author|
           author_last_name = author.find_first(".//surname").content
           author_first_name = author.find_first(".//given_name").content
           params[:authors] << DoiAuthor.new(author_first_name, author_last_name)
@@ -103,7 +108,8 @@ class DoiQuery
       month = month.nil? ? "01" : month.content
       year = xml_date.find_first(".//year")
       year = year.nil? ? "1970" : year.content
-      date = "#{month}/#{day}/#{year}".to_date
+      #date = "#{month}/#{day}/#{year}".to_date
+      date = Date.new(year.to_i, month.to_i, day.to_i)
       return date
     end
   end
