@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name        = 'DOI-query-tool'
+  s.name        = 'doi_query_tool'
   s.version     = '0.0.0'
   s.date        = '2010-04-28'
   s.summary     = "Download doi publication metadata from crossref.org" 

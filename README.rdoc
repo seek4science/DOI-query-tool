@@ -1,8 +1,8 @@
-=DOI-query-tool Gem
+=doi_query_tool Gem
 This is the Gem version of DOI-query-tool Plugin (More information please read the Plugin)
 ==Install
 Put this line into the Gemfile:
-  gem 'DOI-query-tool', :git => "git://github.com/SysMO-DB/DOI-query-tool.git"
+  gem 'doi_query_tool', :git => "git://github.com/SysMO-DB/doi_query_tool.git"
 
 
 =DOI-query-tool Plugin
