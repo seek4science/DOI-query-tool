@@ -11,17 +11,25 @@ Download doi publication metadata from crossref.org. You may need to register an
 
 ==Example
 #replace email_address with the one registered at crossref
+
 email_address="me@somewhere.com"
+
 doi = "10.1007/978-3-540-70504-8_9"
+
 query = DoiQuery.new(email_address)
+
 result = query.fetch(doi)
+
 puts result.authors.first.first_name
+
 puts result.title
+
 puts result.date_published
 
 ==Authors
 
 Finn Bacall
+
 Ian Dunlop
 
 Copyright 2012 University of Manchester, released under the MIT license
