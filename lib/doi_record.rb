@@ -3,7 +3,6 @@ class DoiRecord
 
   PUBLICATION_TYPES = {:journal=>1,:conference=>2,:book_chapter=>3}
 
-  DOI_BASE_URL = "http://dx.doi.org/"
 
   def initialize(attributes={})
     self.title = attributes[:title]
@@ -16,8 +15,9 @@ class DoiRecord
     self.publication_type = attributes[:type] || PUBLICATION_TYPES[:journal]
     self.error=attributes[:error] || nil
   end
+
   
   def lookup_url
-    return DOI_BASE_URL + self.doi
+    DOI_BASE_URL + self.doi
   end
 end
