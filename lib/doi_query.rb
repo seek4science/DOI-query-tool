@@ -116,8 +116,7 @@ class DoiQuery
       month = month.nil? ? "01" : month.content
       year = xml_date.find_first(".//year")
       year = year.nil? ? "1970" : year.content
-      date = Time.new(year,month,day).to_date
-      return date
+      Date.strptime("#{year}-#{month}-#{day}")
     end
   end
 end
