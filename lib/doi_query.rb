@@ -70,7 +70,8 @@ class DoiQuery
 
       params[:authors] = []
       author_elements = article.find("//content_item/contributors/person_name[@contributor_role='author']")
-      author_elements = article.find("//contributors/person_name[@contributor_role='author']") if author_elements.collect.blank?
+      author_elements = article.find("//contributors/person_name[@contributor_role='author']") if author_elements.blank?
+
       author_elements.each do |author|
         author_last_name = author.find_first(".//surname").content
         author_first_name = author.find_first(".//given_name").content
@@ -115,7 +116,7 @@ class DoiQuery
       month = month.nil? ? "01" : month.content
       year = xml_date.find_first(".//year")
       year = year.nil? ? "1970" : year.content
-      date = "#{month}/#{day}/#{year}".to_date
+      date = Time.new(year,month,day).to_date
       return date
     end
   end
