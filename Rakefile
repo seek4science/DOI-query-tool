@@ -1,6 +1,11 @@
 require 'rake'
 require 'rake/testtask'
-require 'rake/rdoctask'
+
+begin
+  require 'rake/rdoctask'
+rescue
+  require 'rdoc/task'
+end
 
 desc 'Default: run unit tests.'
 task :default => :test

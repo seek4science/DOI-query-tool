@@ -14,6 +14,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
     assert_equal(result.authors.first.first_name, "Christian Y. A.")
     assert_equal(result.title,"A Semantics for a Query Language over Sensors, Streams and Relations")
     assert_equal(result.authors.size, 4)
+    assert_equal("Lecture Notes in Computer Science 5071 : 87", result.citation)
   end  
 
 end

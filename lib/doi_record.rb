@@ -1,5 +1,5 @@
 class DoiRecord
-  attr_accessor :authors, :title, :abstract, :journal, :doi, :xml, :date_published,:publication_type, :error
+  attr_accessor :authors, :title, :abstract, :journal, :citation, :doi, :xml, :date_published,:publication_type, :error
 
   PUBLICATION_TYPES = {:journal=>1,:conference=>2,:book_chapter=>3}
 
@@ -8,6 +8,7 @@ class DoiRecord
     self.title = attributes[:title]
     self.abstract = attributes[:abstract]
     self.journal = attributes[:journal]
+    self.citation = attributes[:citation]
     self.doi = attributes[:doi]
     self.xml = attributes[:doc]
     self.date_published = attributes[:pub_date]

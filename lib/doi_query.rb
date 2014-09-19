@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'xml'
 require 'open-uri'
+require 'active_support/all'
 
 class DoiQuery
   attr_accessor :api_key
@@ -81,15 +82,29 @@ class DoiQuery
       journal = article.find_first('//journal_metadata/abbrev_title')
       journal ||= article.find_first("//proceedings_metadata/proceedings_title")
       journal ||= article.find_first("//book_series_metadata/titles/title")
+      journal ||= article.find_first("//book_metadata/titles/title")
 
       params[:journal] = journal.nil? ? nil : journal.content
 
+      # add citation
+      if article.find_first('//journal_metadata/abbrev_title')
+        citation_iso_abbrev = article.find_first('//journal_metadata/abbrev_title').content
+      elsif article.find_first('//title')
+        citation_iso_abbrev = article.find_first('//title').content
+      else
+        citation_iso_abbrev = ""
+      end
+      citation_volume = article.find_first('.//volume') ? article.find_first('.//volume').content : ""
+      citation_issue = article.find_first('.//issue') ? "(" + article.find_first('.//issue').content + ")" : ""
+      citation_first_page = article.find_first('.//first_page') ? " : " + article.find_first('.//first_page').content : ""
+      citation = citation_iso_abbrev + " " + citation_volume + citation_issue + citation_first_page
+      params[:citation] = citation
 
       date = article.find_first('//publication_date')
       params[:pub_date] = date.nil? ? nil : parse_date(date)
 
     rescue Exception => ex
-      params={:error=>"Unable to process the metadata for that DOI"}
+      params={:error => "Unable to process the metadata for that DOI"}
     end
     DoiRecord.new(params)
   end
