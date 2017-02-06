@@ -6,7 +6,7 @@ require 'active_support/all'
 class DoiQuery
   attr_accessor :api_key
 
-  FETCH_URL = "http://www.crossref.org/openurl/"
+  FETCH_URL = "https://www.crossref.org/openurl/"
 
   def initialize(a)
     self.api_key = a
@@ -117,7 +117,7 @@ class DoiQuery
       doc = XML::Parser.string(string).parse
       return doc
     rescue Exception => ex
-      raise "There was an error fetching the given DOI\n#{ex.backtrace.join("\n")}"
+      raise "There was an error fetching the given DOI\n#{ex.message}\n#{ex.backtrace.join("\n")}"
     end
   end
 
