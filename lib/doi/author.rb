@@ -8,7 +8,7 @@ module DOI
     end
 
     def name
-      "#{self.first_name} #{self.last_name}"
+      "#{first_name} #{last_name}"
     end
   end
 end

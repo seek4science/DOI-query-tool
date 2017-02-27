@@ -3,9 +3,9 @@ module DOI
     attr_accessor :authors, :title, :abstract, :journal, :citation, :doi, :xml, :date_published,
                   :publication_type, :error
 
-    PUBLICATION_TYPES = [:journal, :conference, :book_chapter, :pre_print, :other]
+    PUBLICATION_TYPES = [:journal, :conference, :book_chapter, :pre_print, :other].freeze
 
-    def initialize(attributes={})
+    def initialize(attributes = {})
       self.title = attributes[:title]
       self.abstract = attributes[:abstract]
       self.journal = attributes[:journal]
@@ -19,7 +19,7 @@ module DOI
     end
 
     def lookup_url
-      "#{DOI.lookup_url.chomp('/')}/#{self.doi}"
+      "#{DOI.lookup_url.chomp('/')}/#{doi}"
     end
   end
 end

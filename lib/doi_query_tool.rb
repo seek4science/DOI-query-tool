@@ -9,15 +9,15 @@ module DOI
   require 'doi/record'
   require 'doi/exceptions'
 
-  FETCH_URL = 'https://www.crossref.org/openurl/'
+  FETCH_URL = 'https://www.crossref.org/openurl/'.freeze
 
-  LOOKUP_URL = 'http://dx.doi.org/'
+  LOOKUP_URL = 'http://dx.doi.org/'.freeze
 
   def self.lookup_url
     class_variable_defined?('@@lookup_url') ? @@lookup_url : LOOKUP_URL
   end
 
-  def self.lookup_url= url
+  def self.lookup_url=(url)
     @@lookup_url = url
   end
 
@@ -25,7 +25,7 @@ module DOI
     class_variable_defined?('@@fetch_url') ? @@lookup_url : FETCH_URL
   end
 
-  def self.fetch_url= url
+  def self.fetch_url=(url)
     @@fetch_url = url
   end
 end

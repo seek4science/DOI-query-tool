@@ -1,5 +1,5 @@
 module DOI
-  class UnrecognizedTypeException < Exception; end
-  class FetchException < Exception; end
-  class ParseException < Exception; end
+  class UnrecognizedTypeException < RuntimeError; end
+  class FetchException < RuntimeError; end
+  class ParseException < RuntimeError; end
 end
