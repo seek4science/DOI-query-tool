@@ -52,17 +52,17 @@ module DOI
       params = {}
 
       article = doc.find_first("//journal")
-      params[:type] = DOI::Record::PUBLICATION_TYPES[:journal] unless article.nil?
+      params[:type] = :journal unless article.nil?
       article ||= doc.find_first("//conference")
-      params[:type] ||= DOI::Record::PUBLICATION_TYPES[:conference] unless article.nil?
+      params[:type] ||= :conference unless article.nil?
       article ||= doc.find_first("//book")
-      params[:type] ||= DOI::Record::PUBLICATION_TYPES[:book_chapter] unless article.nil?
+      params[:type] ||= :book_chapter unless article.nil?
       if article.nil?
         article ||= doc.find_first("//posted_content")
         if article.attributes['type'] == 'preprint'
-          params[:type] = DOI::Record::PUBLICATION_TYPES[:pre_print]
+          params[:type] = :pre_print
         else
-          params[:type] = DOI::Record::PUBLICATION_TYPES[:other]
+          params[:type] = :other
         end
         if article.nil?
           raise DOI::UnrecognizedTypeException.new

@@ -3,7 +3,7 @@ module DOI
     attr_accessor :authors, :title, :abstract, :journal, :citation, :doi, :xml, :date_published,
                   :publication_type, :error
 
-    PUBLICATION_TYPES = { :journal=>1, :conference=>2, :book_chapter=>3, :pre_print=>4, :other=>5 }
+    PUBLICATION_TYPES = [:journal, :conference, :book_chapter, :pre_print, :other]
 
     def initialize(attributes={})
       self.title = attributes[:title]
@@ -14,8 +14,8 @@ module DOI
       self.xml = attributes[:doc]
       self.date_published = attributes[:pub_date]
       self.authors = attributes[:authors] || []
-      self.publication_type = attributes[:type] || PUBLICATION_TYPES[:journal]
-      self.error=attributes[:error] || nil
+      self.publication_type = attributes[:type] || :journal
+      self.error = attributes[:error] || nil
     end
 
     def lookup_url
