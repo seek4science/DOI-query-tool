@@ -71,6 +71,7 @@ module DOI
       title = article.find_first('//journal_article/titles/title')
       title ||= article.find_first('//conference_paper/titles/title')
       title ||= article.find_first('//content_item/titles/title')
+      title ||= article.find_first('//titles/title')
       params[:title] = title.nil? ? nil : title.content
 
       params[:authors] = []
