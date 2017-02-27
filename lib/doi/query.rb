@@ -9,7 +9,7 @@ module DOI
     # Takes either a DOI and fetches the associated publication
     def fetch(id, params = {})
       params[:format] = 'unixref'
-      params[:id] = "doi#{id}" unless params[:id]
+      params[:id] = "doi:#{id}" unless params[:id]
       params[:pid] = api_key unless params[:pid]
       params[:noredirect] = true
       uri = URI(DOI.fetch_url)
