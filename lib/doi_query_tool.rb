@@ -9,7 +9,7 @@ module DOI
   require 'doi/record'
   require 'doi/exceptions'
 
-  FETCH_URL = 'https://www.crossref.org/openurl/'.freeze
+  FETCH_URL = 'https://doi.crossref.org/openurl'.freeze
 
   LOOKUP_URL = 'http://dx.doi.org/'.freeze
 
