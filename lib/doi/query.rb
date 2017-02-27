@@ -2,8 +2,6 @@ module DOI
   class Query
     attr_accessor :api_key
 
-    FETCH_URL = "https://www.crossref.org/openurl/"
-
     def initialize(a)
       self.api_key = a
     end
@@ -14,7 +12,9 @@ module DOI
       params[:id] = "doi:"+id unless params[:id]
       params[:pid] = self.api_key unless params[:pid]
       params[:noredirect] = true
-      url = FETCH_URL + "?" + params.delete_if { |k, v| k.nil? }.to_param
+      uri = URI(DOI.fetch_url)
+      uri.query = URI.encode_www_form(params.delete_if { |k, v| k.nil? }.to_a)
+      url = uri.to_s
 
       doc = query(url)
 
@@ -119,6 +119,7 @@ module DOI
       rescue Exception => e
         raise DOI::FetchException.new
       end
+
       begin
         #Manually remove annoying namespaces because libxml can't do it
         string = doc.read.gsub(/xmlns=\"([^\"]*)\"/, "")

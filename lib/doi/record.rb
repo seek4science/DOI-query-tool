@@ -1,6 +1,7 @@
 module DOI
   class Record
-    attr_accessor :authors, :title, :abstract, :journal, :citation, :doi, :xml, :date_published,:publication_type, :error
+    attr_accessor :authors, :title, :abstract, :journal, :citation, :doi, :xml, :date_published,
+                  :publication_type, :error
 
     PUBLICATION_TYPES = { :journal=>1, :conference=>2, :book_chapter=>3, :pre_print=>4, :other=>5 }
 
@@ -18,7 +19,7 @@ module DOI
     end
 
     def lookup_url
-      DOI_BASE_URL + self.doi
+      "#{DOI.lookup_url.chomp('/')}/#{self.doi}"
     end
   end
 end
