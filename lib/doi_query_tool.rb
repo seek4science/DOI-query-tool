@@ -1,4 +1,11 @@
-require "doi_query.rb"
-require "doi_record.rb"
-require "doi_author.rb"
+module DOI
+  require 'rubygems'
+  require 'xml'
+  require 'open-uri'
+  require 'active_support/all'
 
+  require 'doi/author'
+  require 'doi/query'
+  require 'doi/record'
+  require 'doi/exceptions'
+end
