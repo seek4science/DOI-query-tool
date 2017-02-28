@@ -1,0 +1,91 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://doi.crossref.org/openurl?format=unixref&id=doi:10.1002/ca.22295&noredirect=true&pid=test@localhost
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Crossref-Deployment-Name:
+      - qs2-2
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Language:
+      - en-US
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 28 Feb 2017 10:22:37 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<doi_records>\r\n  <doi_record
+        owner=\"10.1002\" timestamp=\"2016-09-30 19:56:14\">\r\n    <crossref>\r\n
+        \     <journal>\r\n        <journal_metadata language=\"en\">\r\n          <full_title>Clinical
+        Anatomy</full_title>\r\n          <abbrev_title>Clin. Anat.</abbrev_title>\r\n
+        \         <issn>08973806</issn>\r\n        </journal_metadata>\r\n        <journal_issue>\r\n
+        \         <publication_date media_type=\"print\">\r\n            <month>07</month>\r\n
+        \           <year>2014</year>\r\n          </publication_date>\r\n          <journal_volume>\r\n
+        \           <volume>27</volume>\r\n          </journal_volume>\r\n          <issue>5</issue>\r\n
+        \         <doi_data>\r\n            <doi>10.1002/ca.v27.5</doi>\r\n            <resource>http://doi.wiley.com/10.1002/ca.v27.5</resource>\r\n
+        \         </doi_data>\r\n        </journal_issue>\r\n        <journal_article
+        publication_type=\"full_text\">\r\n          <titles>\r\n            <title>The
+        anatomy of the aortic root</title>\r\n            <subtitle>The Anatomy of
+        the Aortic Root</subtitle>\r\n          </titles>\r\n          <contributors>\r\n
+        \           <person_name contributor_role=\"author\" sequence=\"first\">\r\n
+        \             <given_name>Marios</given_name>\r\n              <surname>Loukas</surname>\r\n
+        \             <affiliation>Department of Anatomical Sciences; St. George's
+        University; Grenada West Indies</affiliation>\r\n            </person_name>\r\n
+        \           <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \             <given_name>Esther</given_name>\r\n              <surname>Bilinsky</surname>\r\n
+        \             <affiliation>Department of Anatomical Sciences; St. George's
+        University; Grenada West Indies</affiliation>\r\n            </person_name>\r\n
+        \           <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \             <given_name>Samuel</given_name>\r\n              <surname>Bilinsky</surname>\r\n
+        \             <affiliation>Department of Anatomical Sciences; St. George's
+        University; Grenada West Indies</affiliation>\r\n            </person_name>\r\n
+        \           <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \             <given_name>Christa</given_name>\r\n              <surname>Blaak</surname>\r\n
+        \             <affiliation>Department of Anatomical Sciences; St. George's
+        University; Grenada West Indies</affiliation>\r\n            </person_name>\r\n
+        \           <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \             <given_name>R. Shane</given_name>\r\n              <surname>Tubbs</surname>\r\n
+        \             <affiliation>Department of Anatomical Sciences; St. George's
+        University; Grenada West Indies</affiliation>\r\n              <affiliation>Department
+        of Cell Biology; University of Birmingham Alabama; Birmingham Alabama</affiliation>\r\n
+        \           </person_name>\r\n            <person_name contributor_role=\"author\"
+        sequence=\"additional\">\r\n              <given_name>Robert H.</given_name>\r\n
+        \             <surname>Anderson</surname>\r\n              <affiliation>Cardiac
+        Unit, Institute of Child Health; University College; London United Kingdom</affiliation>\r\n
+        \           </person_name>\r\n          </contributors>\r\n          <publication_date
+        media_type=\"print\">\r\n            <month>07</month>\r\n            <year>2014</year>\r\n
+        \         </publication_date>\r\n          <publication_date media_type=\"online\">\r\n
+        \           <month>09</month>\r\n            <day>02</day>\r\n            <year>2013</year>\r\n
+        \         </publication_date>\r\n          <pages>\r\n            <first_page>748</first_page>\r\n
+        \           <last_page>756</last_page>\r\n          </pages>\r\n          <program
+        name=\"AccessIndicators\">\r\n            <license_ref applies_to=\"tdm\"
+        start_date=\"2015-09-01\">http://doi.wiley.com/10.1002/tdm_license_1</license_ref>\r\n
+        \         </program>\r\n          <doi_data>\r\n            <doi>10.1002/ca.22295</doi>\r\n
+        \           <resource>http://doi.wiley.com/10.1002/ca.22295</resource>\r\n
+        \           <collection property=\"text-mining\" setbyID=\"wiley\">\r\n              <item>\r\n
+        \               <resource content_version=\"vor\">https://api.wiley.com/onlinelibrary/tdm/v1/articles/10.1002%2Fca.22295</resource>\r\n
+        \             </item>\r\n            </collection>\r\n          </doi_data>\r\n
+        \       </journal_article>\r\n      </journal>\r\n    </crossref>\r\n  </doi_record>\r\n</doi_records>"
+    http_version: 
+  recorded_at: Tue, 28 Feb 2017 10:22:36 GMT
+recorded_with: VCR 3.0.3

@@ -1,0 +1,42 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://doi.crossref.org/openurl?format=unixref&id=doi:10.5072/1234&noredirect=true&pid=test@localhost
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Crossref-Deployment-Name:
+      - qs3-1
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Language:
+      - en-US
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Tue, 28 Feb 2017 10:01:08 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<doi_records>\r\n  <doi_record>\r\n
+        \   <crossref>\r\n      <error>doi:10.5072/1234</error>\r\n    </crossref>\r\n
+        \ </doi_record>\r\n</doi_records>"
+    http_version: 
+  recorded_at: Tue, 28 Feb 2017 10:01:08 GMT
+recorded_with: VCR 3.0.3

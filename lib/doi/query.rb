@@ -16,35 +16,38 @@ module DOI
       uri.query = URI.encode_www_form(params.delete_if { |k, _v| k.nil? }.to_a)
       url = uri.to_s
 
-      doc = query(url)
+      res = open(url)
 
-      record = parse_xml(doc)
+      record = parse_xml(res)
       record.doi = id
       record
     end
 
     # Parses the XML returned from the DOI query, and creates an object
-    def parse_xml(doc)
-      if doc.find_first('//error') || doc.to_s.include?('Malformed DOI')
-        process_error(doc)
+    def parse_xml(res)
+      if res.content_type.include?('xml')
+        doc = LibXML::XML::Parser.io(res).parse
+        if doc.find_first('//error')
+          process_error(doc)
+        else
+          process_content(doc)
+        end
+      elsif res.read.to_s.include?('Malformed DOI')
+        raise DOI::MalformedDOIException.new
       else
-        process_content(doc)
+        raise DOI::ParseException.new('Unrecognized response format')
       end
     end
 
     private
 
     def process_error(doc)
-      params = {}
-      if doc.to_s.include?('Malformed DOI')
-        params[:error] = 'Not a valid DOI'
-      else
-        error = doc.find_first('//error')
-        params[:error] = error.content
-        params[:error] = 'The DOI could not be resolved' if params[:error].include?('not found in CrossRef')
-      end
+      error = doc.find_first('//error')
 
-      DOI::Record.new(params)
+      message = error.content
+      message = 'The DOI could not be resolved' if message.start_with?('doi:')
+
+      raise DOI::FetchException.new(message)
     end
 
     def process_content(doc)
@@ -109,23 +112,6 @@ module DOI
       params[:pub_date] = date.nil? ? nil : parse_date(date)
 
       DOI::Record.new(params)
-    end
-
-    def query(url)
-      begin
-        doc = open(url)
-      rescue Exception => e
-        raise DOI::FetchException
-      end
-
-      begin
-        # Manually remove annoying namespaces because libxml can't do it
-        string = doc.read.gsub(/xmlns=\"([^\"]*)\"/, '')
-        doc = XML::Parser.string(string).parse
-        return doc
-      rescue Exception => ex
-        raise DOI::ParseException # "There was an error fetching the given DOI\n#{ex.message}\n#{ex.backtrace.join("\n")}"
-      end
     end
 
     def parse_date(xml_date)
