@@ -49,7 +49,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
 
   def test_valid_but_non_existent_doi
     VCR.use_cassette('non_existent_doi') do
-      assert_raises(DOI::FetchException) do
+      assert_raises(DOI::NotFoundException) do
         @client.fetch('10.5072/1234')
       end
     end

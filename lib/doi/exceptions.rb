@@ -15,4 +15,5 @@ module DOI
   class FetchException < MyException; end
   class ParseException < MyException; end
   class MalformedDOIException < MyException; end
+  class NotFoundException < MyException; end
 end

@@ -49,9 +49,12 @@ module DOI
       error = doc.find_first('//error')
 
       message = error.content
-      message = 'The DOI could not be resolved' if message.start_with?('doi:')
-
-      raise DOI::FetchException.new(message)
+      if message.start_with?('doi:')
+        message = 'The DOI could not be resolved'
+        raise DOI::NotFoundException.new(message)
+      else
+        raise DOI::FetchException.new(message)
+      end
     end
 
     def process_content(doc)
