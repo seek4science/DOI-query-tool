@@ -2,12 +2,15 @@ module DOI
   class MyException < RuntimeError
 
     def initialize(msg = 'A DOI exception occurred')
-      msg = "#{msg}: #{cause.message}" if cause
       super(msg)
     end
 
     def backtrace
       cause ? cause.backtrace : super
+    end
+
+    def message
+      cause ? "#{super} (#{cause.class.name}: #{cause.message})" : super
     end
   end
 
