@@ -22,7 +22,7 @@ module DOI
   end
 
   def self.fetch_url
-    class_variable_defined?('@@fetch_url') ? @@lookup_url : FETCH_URL
+    class_variable_defined?('@@fetch_url') ? @@fetch_url : FETCH_URL
   end
 
   def self.fetch_url=(url)
