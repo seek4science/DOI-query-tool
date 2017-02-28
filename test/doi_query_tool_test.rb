@@ -55,6 +55,16 @@ class DoiQueryToolTest < Test::Unit::TestCase
     end
   end
 
+  def test_404_response
+    DOI.fetch_url = 'http://404.host'
+    stub_request(:get, /http\:\/\/404\.host.*/).to_return(status: 404)
+
+    assert_raises(DOI::FetchException) do
+      client = DOI::Query.new('test@localhost')
+      client.fetch('10.5072/1234')
+    end
+  end
+
   def test_change_fetch_url
     DOI.fetch_url = 'http://somewhere.else'
     VCR.use_cassette('doi_from_somewhere_else') do

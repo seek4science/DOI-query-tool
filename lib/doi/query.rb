@@ -16,7 +16,11 @@ module DOI
       uri.query = URI.encode_www_form(params.delete_if { |k, _v| k.nil? }.to_a)
       url = uri.to_s
 
-      res = open(url)
+      begin
+        res = open(url)
+      rescue Exception => e
+        raise DOI::FetchException.new
+      end
 
       record = parse_xml(res)
       record.doi = id

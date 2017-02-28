@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start
 
 require 'test/unit'
+require 'webmock/test_unit'
 require 'vcr'
 require 'doi_query_tool'
 

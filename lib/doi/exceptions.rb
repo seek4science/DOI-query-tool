@@ -1,18 +1,18 @@
 module DOI
-  class Exception < RuntimeError
-    attr_reader :original
-    def initialize(msg = '', original=$!)
+  class MyException < RuntimeError
+
+    def initialize(msg = 'A DOI exception occurred')
+      msg = "#{msg}: #{cause.message}" if cause
       super(msg)
-      @original = original
     end
 
     def backtrace
-      @original ? @original.backtrace : super
+      cause ? cause.backtrace : super
     end
   end
 
-  class UnrecognizedTypeException < Exception; end
-  class FetchException < Exception; end
-  class ParseException < Exception; end
-  class MalformedDOIException < Exception; end
+  class UnrecognizedTypeException < MyException; end
+  class FetchException < MyException; end
+  class ParseException < MyException; end
+  class MalformedDOIException < MyException; end
 end
