@@ -66,15 +66,19 @@ module DOI
       params[:type] ||= :conference unless article.nil?
       article ||= doc.find_first('//book')
       params[:type] ||= :book_chapter unless article.nil?
+
       if article.nil?
-        article ||= doc.find_first('//posted_content')
-        params[:type] = if article.attributes['type'] == 'preprint'
-                          :pre_print
-                        else
-                          :other
-                        end
-        raise DOI::UnrecognizedTypeException if article.nil?
+        article = doc.find_first('//posted_content')
+        unless article.nil?
+          params[:type] = if article.attributes['type'] == 'preprint'
+                            :pre_print
+                          else
+                            :other
+                          end
+        end
       end
+
+      raise DOI::UnrecognizedTypeException if article.nil?
 
       params[:doc] = article
 

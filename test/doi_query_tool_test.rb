@@ -55,6 +55,14 @@ class DoiQueryToolTest < Test::Unit::TestCase
     end
   end
 
+  def test_unrecognized_type
+    VCR.use_cassette('unrecognized_type') do
+      assert_raises(DOI::UnrecognizedTypeException) do
+        @client.fetch('10.5072/5678')
+      end
+    end
+  end
+
   def test_404_response
     DOI.fetch_url = 'http://404.host'
     stub_request(:get, /http\:\/\/404\.host.*/).to_return(status: 404)
