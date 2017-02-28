@@ -9,7 +9,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/SysMO-DB/doi_query_tool'
   s.require_paths = ['lib']
   s.add_runtime_dependency 'libxml-ruby', '>=2.6.0'
-  s.add_runtime_dependency 'activesupport', '~> 3.2.22'
   s.add_development_dependency 'test-unit'
   s.add_development_dependency 'webmock', '~> 1.24.6'
   s.add_development_dependency 'vcr', '~> 3.0.3'

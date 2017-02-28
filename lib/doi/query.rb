@@ -86,7 +86,7 @@ module DOI
 
       params[:authors] = []
       author_elements = article.find("//content_item/contributors/person_name[@contributor_role='author']")
-      author_elements = article.find("//contributors/person_name[@contributor_role='author']") if author_elements.blank?
+      author_elements = article.find("//contributors/person_name[@contributor_role='author']") if author_elements.none?
 
       author_elements.each do |author|
         author_last_name = author.find_first('.//surname').content
