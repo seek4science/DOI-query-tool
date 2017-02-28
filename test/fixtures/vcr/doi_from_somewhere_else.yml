@@ -1,0 +1,97 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://somewhere.else/?format=unixref&id=doi:10.1101/105437&noredirect=true&pid=test@localhost
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Server:
+      - Apache-Coyote/1.1
+      Crossref-Deployment-Name:
+      - qs3-1
+      Content-Type:
+      - text/xml;charset=UTF-8
+      Content-Language:
+      - en-US
+      Transfer-Encoding:
+      - chunked
+      Date:
+      - Mon, 27 Feb 2017 15:41:31 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<doi_records>\r\n  <doi_record
+        owner=\"10.1101\" timestamp=\"2017-02-07 01:10:14\">\r\n    <crossref>\r\n
+        \     <posted_content type=\"preprint\" language=\"en\" metadata_distribution_opts=\"any\">\r\n
+        \       <group_title>Systems Biology</group_title>\r\n        <contributors>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"first\">\r\n
+        \           <given_name>Yin Hoon</given_name>\r\n            <surname>Chew</surname>\r\n
+        \           <ORCID>http://orcid.org/0000-0002-9258-583X</ORCID>\r\n          </person_name>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \           <given_name>Daniel D.</given_name>\r\n            <surname>Seaton</surname>\r\n
+        \           <ORCID>http://orcid.org/0000-0002-5222-3893</ORCID>\r\n          </person_name>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \           <given_name>Virginie</given_name>\r\n            <surname>Mengin</surname>\r\n
+        \         </person_name>\r\n          <person_name contributor_role=\"author\"
+        sequence=\"additional\">\r\n            <given_name>Anna</given_name>\r\n
+        \           <surname>Flis</surname>\r\n          </person_name>\r\n          <person_name
+        contributor_role=\"author\" sequence=\"additional\">\r\n            <given_name>Sam
+        T.</given_name>\r\n            <surname>Mugford</surname>\r\n          </person_name>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \           <given_name>Alison M.</given_name>\r\n            <surname>Smith</surname>\r\n
+        \           <ORCID>http://orcid.org/0000-0001-6927-9650</ORCID>\r\n          </person_name>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \           <given_name>Mark</given_name>\r\n            <surname>Stitt</surname>\r\n
+        \           <ORCID>http://orcid.org/0000-0002-4900-1763</ORCID>\r\n          </person_name>\r\n
+        \         <person_name contributor_role=\"author\" sequence=\"additional\">\r\n
+        \           <given_name>Andrew J</given_name>\r\n            <surname>Millar</surname>\r\n
+        \           <ORCID>http://orcid.org/0000-0003-1756-3654</ORCID>\r\n          </person_name>\r\n
+        \       </contributors>\r\n        <titles>\r\n          <title>This came from somewhere else</title>\r\n        </titles>\r\n
+        \       <posted_date>\r\n          <month>02</month>\r\n          <day>06</day>\r\n
+        \         <year>2017</year>\r\n        </posted_date>\r\n        <acceptance_date>\r\n
+        \         <month>02</month>\r\n          <day>06</day>\r\n          <year>2017</year>\r\n
+        \       </acceptance_date>\r\n        <institution>\r\n          <institution_name>bioRxiv</institution_name>\r\n
+        \       </institution>\r\n        <item_number item_number_type=\"pisa\">biorxiv;105437v1</item_number>\r\n
+        \       <abstract>\r\n          <p>Predicting a multicellular organism's phenotype
+        quantitatively from its genotype is challenging, as genetic effects must propagate
+        up time and length scales. Circadian clocks are intracellular regulators that
+        control temporal gene expression patterns and hence metabolism, physiology
+        and behaviour, from sleep/wake cycles in mammals to flowering in plants1-3.
+        Clock genes are rarely essential but appropriate alleles can confer a competitive
+        advantage4,5 and have been repeatedly selected during crop domestication3,6.
+        Here we quantitatively explain and predict canonical phenotypes of circadian
+        timing in a multicellular, model organism. We used metabolic and physiological
+        data to combine and extend mathematical models of rhythmic gene expression,
+        photoperiod-dependent flowering, elongation growth and starch metabolism within
+        a Framework Model for growth of Arabidopsis thaliana7-9. The model predicted
+        the effect of altered circadian timing upon each particular phenotype in clock-mutant
+        plants. Altered night-time metabolism of stored starch accounted for most
+        but not all of the decrease in whole-plant growth rate. Altered mobilisation
+        of a secondary store of organic acids quantitatively explained the remaining
+        defect. Our results link genotype through specific processes to higher-level
+        phenotypes, formalising our understanding of a subtle, pleiotropic syndrome
+        at the whole-organism level, and validating the systems approach to understand
+        complex traits starting from intracellular circuits.</p>\r\n        </abstract>\r\n
+        \       <doi_data>\r\n          <doi>10.1101/105437</doi>\r\n          <timestamp>2017020622100660000</timestamp>\r\n
+        \         <resource>http://biorxiv.org/lookup/doi/10.1101/105437</resource>\r\n
+        \         <collection property=\"crawler-based\">\r\n            <item crawler=\"iParadigms\">\r\n
+        \             <resource>https://syndication.highwire.org/content/doi/10.1101/105437</resource>\r\n
+        \           </item>\r\n          </collection>\r\n        </doi_data>\r\n
+        \     </posted_content>\r\n    </crossref>\r\n  </doi_record>\r\n</doi_records>"
+    http_version: 
+  recorded_at: Mon, 27 Feb 2017 15:41:31 GMT
+recorded_with: VCR 3.0.3

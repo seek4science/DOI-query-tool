@@ -16,7 +16,7 @@ email_address="me@somewhere.com"
 
 doi = "10.1007/978-3-540-70504-8_9"
 
-query = DoiQuery.new(email_address)
+query = DOI::Query.new(email_address)
 
 result = query.fetch(doi)
 
