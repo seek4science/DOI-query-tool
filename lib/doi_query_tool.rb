@@ -10,7 +10,7 @@ module DOI
 
   FETCH_URL = 'https://doi.crossref.org/openurl'.freeze
 
-  LOOKUP_URL = 'http://dx.doi.org/'.freeze
+  LOOKUP_URL = 'https://doi.org/'.freeze
 
   def self.lookup_url
     class_variable_defined?('@@lookup_url') ? @@lookup_url : LOOKUP_URL
