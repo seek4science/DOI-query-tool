@@ -4,6 +4,7 @@ module DOI
   require 'open-uri'
 
   require 'doi/author'
+  require 'doi/editor'
   require 'doi/query'
   require 'doi/record'
   require 'doi/exceptions'

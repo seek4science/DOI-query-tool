@@ -1,40 +1,40 @@
 ---
 http_interactions:
-- request:
-    method: get
-    uri: http://somewhere.else/?format=unixref&id=doi:10.1101/105437&noredirect=true&pid=test@localhost
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Server:
-      - Apache-Coyote/1.1
-      Crossref-Deployment-Name:
-      - qs3-1
-      Content-Type:
-      - text/xml;charset=UTF-8
-      Content-Language:
-      - en-US
-      Transfer-Encoding:
-      - chunked
-      Date:
-      - Mon, 27 Feb 2017 15:41:31 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<doi_records>\r\n  <doi_record
+  - request:
+      method: get
+      uri: http://somewhere.else/?format=unixref&id=doi:10.1101/105437&noredirect=true&pid=test@localhost
+      body:
+        encoding: US-ASCII
+        string: ''
+      headers:
+        Accept-Encoding:
+          - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+        Accept:
+          - "*/*"
+        User-Agent:
+          - Ruby
+    response:
+      status:
+        code: 200
+        message: OK
+      headers:
+        Server:
+          - Apache-Coyote/1.1
+        Crossref-Deployment-Name:
+          - qs3-1
+        Content-Type:
+          - text/xml;charset=UTF-8
+        Content-Language:
+          - en-US
+        Transfer-Encoding:
+          - chunked
+        Date:
+          - Mon, 27 Feb 2017 15:41:31 GMT
+        Connection:
+          - close
+      body:
+        encoding: UTF-8
+        string: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<doi_records>\r\n  <doi_record
         owner=\"10.1101\" timestamp=\"2017-02-07 01:10:14\">\r\n    <crossref>\r\n
         \     <posted_content type=\"preprint\" language=\"en\" metadata_distribution_opts=\"any\">\r\n
         \       <group_title>Systems Biology</group_title>\r\n        <contributors>\r\n
@@ -92,6 +92,6 @@ http_interactions:
         \             <resource>https://syndication.highwire.org/content/doi/10.1101/105437</resource>\r\n
         \           </item>\r\n          </collection>\r\n        </doi_data>\r\n
         \     </posted_content>\r\n    </crossref>\r\n  </doi_record>\r\n</doi_records>"
-    http_version: 
-  recorded_at: Mon, 27 Feb 2017 15:41:31 GMT
+      http_version:
+    recorded_at: Mon, 27 Feb 2017 15:41:31 GMT
 recorded_with: VCR 3.0.3
