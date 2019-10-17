@@ -70,13 +70,27 @@ module DOI
       date = doc.find_first('//publication_date')
       params[:date_published] = date.nil? ? nil : parse_date(date)
 
+      citation_first_page = doc.find_first('//pages/first_page').nil? ? '' : doc.find_first('//pages/first_page').content
+      citation_last_page = doc.find_first('//pages/last_page').nil? ? '' : doc.find_first('//pages/last_page').content
+
+      page = citation_last_page.empty? ? 'p.' : 'pp.'
+      page += citation_first_page unless citation_first_page.empty?
+      page += '-' + citation_last_page unless citation_last_page.empty?
+
       # parse publication types
       article = doc.find_first('//journal')
       params[:type] = :journal unless article.nil?
 
       if params[:type].nil?
-        article = doc.find_first('//conference')
-        params[:type] = :conference unless article.nil?
+        article = doc.find_first('//conference') 
+        unless article.nil?
+          conference_paper = doc.find_first('//conference_paper')
+          params[:type] = if conference_paper.nil?
+                            :proceedings
+                          else
+                            :inproceedings
+                          end
+        end
       end
 
       if params[:type].nil?
@@ -89,16 +103,16 @@ module DOI
 
       if params[:type].nil?
         article = doc.find_first('//posted_content')
-        if !article.nil? && article.attributes['type'] == 'preprint'
-          params[:type] = :pre_print
-        else
-          params[:type] = :other
-        end
+        params[:type] = if !article.nil? && article.attributes['type'] == 'preprint'
+                          :pre_print
+                        else
+                          :other
+                        end
       end
 
       case params[:type]
 
-      when :journal, :proceedings
+      when :journal
 
         title = article.find_first('//journal_article/titles/title')
         params[:title] = title.nil? ? nil : title.content
@@ -113,65 +127,62 @@ module DOI
         citation_iso_abbrev = if journal_metadata.find_first('.//abbrev_title')
                                 journal_metadata.find_first('.//abbrev_title').content
                               else
-                                ''
+                                params[:journal]
                               end
         journal_issue = article.find_first('//journal_issue')
-
         citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : ''
         citation_issue = journal_issue.find_first('.//issue') ? '(' + journal_issue.find_first('.//issue').content + ')' : ''
-        citation_first_page = article.find_first('//first_page') ? ' : ' + journal_issue.find_first('//first_page').content : ''
-        citation_last_page = article.find_first('//last_page') ? '-' + journal_issue.find_first('//last_page').content : ''
-        citation = citation_iso_abbrev + ' ' + citation_volume + citation_issue + citation_first_page + citation_last_page
-        citation += '. ' + params[:date_published].year.to_s
-        params[:citation] ||= citation
+
+        citation = citation_iso_abbrev
+        citation += ' ' + citation_volume unless citation_volume.empty?
+        citation += citation_issue unless citation_issue .empty?
+        citation += ':'+ citation_first_page unless citation_first_page.empty?
+        citation += '-'+citation_last_page unless citation_last_page.empty?
+        citation += ' '+params[:date_published].year.to_s
+        params[:citation] = citation
 
 
-      when :conference
+      when :proceedings, :inproceedings
+
         event_metadata = article.find_first('//event_metadata')
-
         unless event_metadata.nil?
           conference_name = event_metadata.find_first('.//conference_name').nil? ? nil : event_metadata.find_first('.//conference_name').content
           conference_location = event_metadata.find_first('.//conference_location').nil? ? nil : event_metadata.find_first('.//conference_location').content
           conference_day = event_metadata.find_first('.//conference_date')
           conference_d = conference_day.content unless conference_day.nil?
           conference_d = Date::MONTHNAMES[Integer(conference_day['start_month'])] + ' ' + conference_day['start_year'] if conference_d.empty?
+          params[:conference] = conference_name
+          params[:conference] += ', ' + conference_location unless conference_location.nil?
+          params[:conference] += ', ' + conference_d unless conference_d.empty?
         end
 
-        params[:conference] = conference_name
-        params[:conference] += ', ' + conference_location unless conference_location.nil?
-        params[:conference] += ', ' + conference_d unless conference_d.empty?
-
         proceedings_metadata = article.find_first('//proceedings_metadata')
-
         unless proceedings_metadata.nil?
-
           params[:booktitle] = proceedings_metadata.find_first('.//proceedings_title').nil? ? nil : proceedings_metadata.find_first('.//proceedings_title').content
           params[:publisher] = proceedings_metadata.find_first('.//publisher/publisher_name').nil? ? nil : proceedings_metadata.find_first('.//publisher/publisher_name').content
           year = proceedings_metadata.find_first('.//publication_date/year').nil? ? nil : proceedings_metadata.find_first('.//publication_date/year').content
-
-          conference_paper = article.find_first('//conference_paper')
-
-          if conference_paper.nil?
-            params[:type]  = :proceedings
-
-          else
-            params[:type] = :inproceedings
-            params[:title] = conference_paper.find_first('.//titles/title').nil? ? nil : conference_paper.find_first('.//titles/title').content
-            pages = conference_paper.find_first('.//first_page').nil? ? nil : conference_paper.find_first('.//first_page').content
-            params[:journal] = params[:booktitle]
-          end
-          params[:citation] = params[:booktitle] unless params[:booktitle].nil?
-          params[:citation] += ',page ' + pages unless pages.nil?
-          params[:citation] += ',' + params[:publisher] unless params[:publisher].nil?
-          params[:citation] += '.' + year unless year.nil?
         end
+
+        conference_paper = article.find_first('//conference_paper')
+        unless conference_paper.nil?
+          params[:title] = conference_paper.find_first('.//titles/title').nil? ? nil : conference_paper.find_first('.//titles/title').content
+        end
+
+
+
+
+        params[:citation] = params[:booktitle] unless params[:booktitle].nil?
+        params[:citation] += ',' + page unless citation_first_page.empty?
+        params[:citation] += ',' + params[:publisher] unless params[:publisher].nil?
+        params[:citation] += '.' + year unless year.nil?
+
       when :book_chapter, :book
         booktitle = article.find_first('//book_series_metadata/titles/title')
         booktitle ||= article.find_first('//book_metadata/titles/title')
         booktitle ||= article.find_first('//book_set_metadata/titles/title')
 
         params[:booktitle] = booktitle.nil? ? nil : booktitle.content
-        publisher =  article.find_first('//book_series_metadata/publisher/publisher_name')
+        publisher = article.find_first('//book_series_metadata/publisher/publisher_name')
         publisher ||=  article.find_first('//book_metadata/publisher/publisher_name')
         publisher ||=  article.find_first('//book_set_metadata/publisher/publisher_name')
         params[:publisher] = publisher.nil? ? nil : publisher.content
@@ -180,17 +191,9 @@ module DOI
           title = article.find_first('//content_item/titles/title')
           params[:title] = title.nil? ? nil : title.content
 
-          citation_first_page = article.find_first('//first_page') ? article.find_first('//first_page').content : ''
-          citation_last_page = article.find_first('//last_page') ? article.find_first('//last_page').content : ''
-
-          page = citation_last_page ? 'pages:' : 'page:'
-          page +=citation_first_page ? citation_first_page : ''
-          page +=citation_last_page ?  '-'+ citation_last_page : ''
-
-
           citation = params[:booktitle]
-          citation += page.empty? ? '' : ','+ page
-          citation += ','+ params[:publisher] unless params[:publisher].nil?
+          citation += ',' + page unless citation_first_page.empty?
+          citation += ',' + params[:publisher] unless params[:publisher].nil?
           citation += '. ' + params[:date_published].year.to_s unless params[:date_published].nil?
           params[:citation] = citation
         else
@@ -240,7 +243,7 @@ module DOI
         params[:editors] << DOI::Editor.new(editor_first_name, editor_last_name)
       end
 
-      # in case of proceedings, there is no authors but editors
+      # in case of proceedings, there are no authors but editors
       if params[:editors] == [] && params[:type] == :proceedings
         params[:editors] = params[:authors]
       end

@@ -1,9 +1,10 @@
 module DOI
   class Record
-    attr_accessor :authors, :editors, :title, :abstract, :journal, :conference, :booktitle,:publisher, :citation, :doi, :xml, :date_published,
+    attr_accessor :authors, :editors, :title, :abstract, :journal, :conference,
+                  :booktitle, :publisher, :citation, :doi, :xml, :date_published,
                   :publication_type, :error
 
-    PUBLICATION_TYPES = [:journal, :conference, :book, :book_chapter, :pre_print,
+    PUBLICATION_TYPES = [:journal, :book, :book_chapter, :pre_print,
                          :inproceedings,:proceedings,:other].freeze
 
     def initialize(attributes = {})
