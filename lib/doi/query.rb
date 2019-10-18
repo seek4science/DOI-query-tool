@@ -191,10 +191,20 @@ module DOI
           title = article.find_first('//content_item/titles/title')
           params[:title] = title.nil? ? nil : title.content
 
+          citation_volume = article.find_first('//book_series_metadata/volume') ? article.find_first('//book_series_metadata/volume').content : ''
+          citation_volume ||=article.find_first('//book_set_metadata/volume') ? article.find_first('//book_set_metadata/volume').content : ''
+
           citation = params[:booktitle]
-          citation += ',' + page unless citation_first_page.empty?
+          if citation_volume.empty?
+            citation += ',' + page unless citation_first_page.empty?
+          else
+            citation += ' ' + citation_volume
+            citation += ':'+ citation_first_page unless citation_first_page.empty?
+            citation += '-'+citation_last_page unless citation_last_page.empty?
+          end
+
           citation += ',' + params[:publisher] unless params[:publisher].nil?
-          citation += '. ' + params[:date_published].year.to_s unless params[:date_published].nil?
+          citation += '.' + params[:date_published].year.to_s unless params[:date_published].nil?
           params[:citation] = citation
         else
           params[:title] = params[:booktitle]

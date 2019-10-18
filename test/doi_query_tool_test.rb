@@ -14,7 +14,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
       assert_equal 'A Semantics for a Query Language over Sensors, Streams and Relations', result.title
       assert_equal 4, result.authors.size
       assert_equal 'Christian Y. A. Brenninkmeijer', result.authors.first.name
-      assert_equal 'Sharing Data, Information and Knowledge,pp.87-99,Springer Berlin Heidelberg. 2008', result.citation
+      assert_equal 'Sharing Data, Information and Knowledge,pp.87-99,Springer Berlin Heidelberg.2008', result.citation
       assert_equal 'Sharing Data, Information and Knowledge',result.journal
       assert_equal :book_chapter, result.publication_type
     end
@@ -28,7 +28,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
       assert_equal  result.booktitle, result.journal
       assert_equal 'Semantic Author Name Disambiguation with Word Embeddings', result.title
       assert_equal '10.1007/978-3-319-67008-9_24', result.doi
-      assert_equal 'Research and Advanced Technology for Digital Libraries,pp.300-311,Springer International Publishing. 2017', result.citation
+      assert_equal 'Research and Advanced Technology for Digital Libraries 10450:300-311,Springer International Publishing.2017', result.citation
       assert_equal 1, result.authors.size
       assert_equal 5, result.editors.size
     end
@@ -87,30 +87,9 @@ class DoiQueryToolTest < Test::Unit::TestCase
   def test_inproceedings_doi_3
     VCR.use_cassette('fetch_inproceedings_doi_3') do
       result = @client.fetch('10.1063/1.2128263')
-      puts "citation:"+result.citation
-      puts "conference:"+result.conference
       assert_equal :inproceedings, result.publication_type
     end
   end
-
-
-  def test_any_doi
-    VCR.use_cassette('temp_doi') do
-      result = @client.fetch('10.1145/2896338')
-      puts "doi:"+result.doi
-      puts "title:"+result.title
-      puts "type:"+result.publication_type.to_s
-      puts "citation:"+result.citation
-      puts "published_date:"+result.date_published.to_s
-      puts "publisher:"+result.publisher unless result.publisher.nil?
-      puts "journal:"+result.journal unless result.journal.nil?
-      puts "booktitle:"+result.booktitle unless result.booktitle.nil?
-      puts "conference:"+result.conference unless result.conference.nil?
-      puts "authors:"+result.authors.size.to_s unless result.authors.nil?
-      puts "editor:"+result.editors.size.to_s unless result.editors.nil?
-    end
-  end
-
 
   def test_proceedings_doi_conference
     VCR.use_cassette('test_proceedings_doi_conference') do
