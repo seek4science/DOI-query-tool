@@ -157,6 +157,8 @@ module DOI
         end
 
         proceedings_metadata = article.find_first('//proceedings_metadata')
+        proceedings_metadata = article.find_first('//proceedings_series_metadata') if proceedings_metadata.nil?
+
         unless proceedings_metadata.nil?
           params[:booktitle] = proceedings_metadata.find_first('.//proceedings_title').nil? ? nil : proceedings_metadata.find_first('.//proceedings_title').content
           params[:publisher] = proceedings_metadata.find_first('.//publisher/publisher_name').nil? ? nil : proceedings_metadata.find_first('.//publisher/publisher_name').content
@@ -167,8 +169,6 @@ module DOI
         unless conference_paper.nil?
           params[:title] = conference_paper.find_first('.//titles/title').nil? ? nil : conference_paper.find_first('.//titles/title').content
         end
-
-
 
 
         params[:citation] = params[:booktitle] unless params[:booktitle].nil?

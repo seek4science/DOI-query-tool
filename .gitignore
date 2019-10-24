@@ -2,3 +2,6 @@
 coverage
 .idea
 Gemfile.lock
+test/fixtures/vcr/temp_doi.yml
+
+
