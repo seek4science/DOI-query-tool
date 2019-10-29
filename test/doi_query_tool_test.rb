@@ -4,7 +4,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
   def setup
     DOI.fetch_url = DOI::FETCH_URL
     DOI.lookup_url = DOI::LOOKUP_URL
-    @client = DOI::Query.new('sowen@cs.man.ac.uk') # This is not a working email address
+    @client = DOI::Query.new('test@localhost') # This is not a working email address
   end
 
   def test_book_chapter_doi
@@ -146,7 +146,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
     stub_request(:get, /http\:\/\/404\.host.*/).to_return(status: 404)
 
     assert_raises(DOI::FetchException) do
-      client = DOI::Query.new('sowen@cs.man.ac.uk')
+      client = DOI::Query.new('test@localhost')
       client.fetch('10.5072/1234')
     end
   end
