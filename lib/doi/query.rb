@@ -68,12 +68,12 @@ module DOI
       date = doc.find_first('//publication_date')
       params[:date_published] = date.nil? ? nil : parse_date(date)
 
-      citation_first_page = doc.find_first('//pages/first_page').nil? ? '' : doc.find_first('//pages/first_page').content
-      citation_last_page = doc.find_first('//pages/last_page').nil? ? '' : doc.find_first('//pages/last_page').content
+      citation_first_page = doc.find_first('//pages/first_page').nil? ? nil : doc.find_first('//pages/first_page').content
+      citation_last_page = doc.find_first('//pages/last_page').nil? ? nil : doc.find_first('//pages/last_page').content
 
-      page = citation_last_page.empty? ? 'p.' : 'pp.'
-      page += citation_first_page unless citation_first_page.empty?
-      page += '-' + citation_last_page unless citation_last_page.empty?
+      page = citation_last_page.nil? ? 'p.' : 'pp.'
+      page += citation_first_page unless citation_first_page.nil?
+      page += '-' + citation_last_page unless citation_last_page.nil?
 
       # parse publication types
       article = doc.find_first('//journal')
@@ -128,14 +128,17 @@ module DOI
                                 params[:journal]
                               end
         journal_issue = article.find_first('//journal_issue')
-        citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : ''
-        citation_issue = journal_issue.find_first('.//issue') ? '(' + journal_issue.find_first('.//issue').content + ')' : ''
+
+        unless journal_issue.nil?
+          citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : nil
+          citation_issue = journal_issue.find_first('.//issue') ? '(' + journal_issue.find_first('.//issue').content + ')' : nil
+        end
 
         citation = citation_iso_abbrev
-        citation += ' ' + citation_volume unless citation_volume.empty?
-        citation += citation_issue unless citation_issue .empty?
-        citation += ':'+ citation_first_page unless citation_first_page.empty?
-        citation += '-'+citation_last_page unless citation_last_page.empty?
+        citation += ' ' + citation_volume unless citation_volume.nil?
+        citation += citation_issue unless citation_issue .nil?
+        citation += ':'+ citation_first_page unless citation_first_page.nil?
+        citation += '-'+citation_last_page unless citation_last_page.nil?
         citation += ' '+params[:date_published].year.to_s
         params[:citation] = citation
 
@@ -170,7 +173,7 @@ module DOI
 
 
         params[:citation] = params[:booktitle] unless params[:booktitle].nil?
-        params[:citation] += ',' + page unless citation_first_page.empty?
+        params[:citation] += ',' + page unless citation_first_page.nil?
         params[:citation] += ',' + params[:publisher] unless params[:publisher].nil?
         params[:citation] += '.' + year unless year.nil?
 
@@ -194,11 +197,11 @@ module DOI
 
           citation = params[:booktitle]
           if citation_volume.empty?
-            citation += ',' + page unless citation_first_page.empty?
+            citation += ',' + page unless citation_first_page.nil?
           else
             citation += ' ' + citation_volume
-            citation += ':'+ citation_first_page unless citation_first_page.empty?
-            citation += '-'+citation_last_page unless citation_last_page.empty?
+            citation += ':'+ citation_first_page unless citation_first_page.nil?
+            citation += '-'+citation_last_page unless citation_last_page.nil?
           end
 
           citation += ',' + params[:publisher] unless params[:publisher].nil?
