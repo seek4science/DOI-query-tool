@@ -17,7 +17,7 @@ module DOI
       uri = URI(DOI.fetch_url)
       uri.query = URI.encode_www_form(params.delete_if { |k, _v| k.nil? }.to_a)
       url = uri.to_s
-
+      puts url
       begin
         res = open(url)
       rescue Exception => e
@@ -162,6 +162,7 @@ module DOI
 
         unless proceedings_metadata.nil?
           params[:booktitle] = proceedings_metadata.find_first('.//proceedings_title').nil? ? nil : proceedings_metadata.find_first('.//proceedings_title').content
+          params[:booktitle] = proceedings_metadata.find_first('.//title').nil? ? nil : proceedings_metadata.find_first('.//title').content if params[:booktitle].nil?
           params[:publisher] = proceedings_metadata.find_first('.//publisher/publisher_name').nil? ? nil : proceedings_metadata.find_first('.//publisher/publisher_name').content
           year = proceedings_metadata.find_first('.//publication_date/year').nil? ? nil : proceedings_metadata.find_first('.//publication_date/year').content
         end
@@ -172,8 +173,9 @@ module DOI
         end
 
 
-        params[:citation] = params[:booktitle] unless params[:booktitle].nil?
-        params[:citation] += ',' + page unless citation_first_page.nil?
+        params[:citation] = params[:booktitle].nil? ? '' : params[:booktitle]
+        params[:citation] += params[:citation].empty? ? '': ','
+        params[:citation] += page unless citation_first_page.nil?
         params[:citation] += ',' + params[:publisher] unless params[:publisher].nil?
         params[:citation] += '.' + year unless year.nil?
 
