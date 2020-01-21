@@ -114,13 +114,9 @@ module DOI
 
         title = article.find_first('//journal_article/titles/title')
         params[:title] = title.nil? ? nil : title.content
-
         journal_metadata = article.find_first('//journal_metadata')
         journal = journal_metadata.find_first('.//full_title')
-
         params[:journal] = journal.nil? ? nil : journal.content
-
-
         citation_iso_abbrev = ''
         citation_iso_abbrev = if journal_metadata.find_first('.//abbrev_title')
                                 journal_metadata.find_first('.//abbrev_title').content
@@ -139,12 +135,10 @@ module DOI
         citation += citation_issue unless citation_issue .nil?
         citation += ':'+ citation_first_page unless citation_first_page.nil?
         citation += '-'+citation_last_page unless citation_last_page.nil?
-        citation += ' '+params[:date_published].year.to_s
+        #citation += ' '+params[:date_published].year.to_s
         params[:citation] = citation
 
-
       when :proceedings, :inproceedings
-
         event_metadata = article.find_first('//event_metadata')
         unless event_metadata.nil?
           conference_name = event_metadata.find_first('.//conference_name').nil? ? nil : event_metadata.find_first('.//conference_name').content
@@ -176,8 +170,9 @@ module DOI
         params[:citation] = params[:booktitle].nil? ? '' : params[:booktitle]
         params[:citation] += params[:citation].empty? ? '': ','
         params[:citation] += page unless citation_first_page.nil?
-        params[:citation] += ',' + params[:publisher] unless params[:publisher].nil?
-        params[:citation] += '.' + year unless year.nil?
+        params[:citation] += ',' unless citation_first_page.nil?
+        params[:citation] += params[:publisher] unless params[:publisher].nil?
+        #params[:citation] += '.' + year unless year.nil?
 
       when :book_chapter, :book
         booktitle = article.find_first('//book_series_metadata/titles/title')
@@ -207,12 +202,12 @@ module DOI
           end
 
           citation += ',' + params[:publisher] unless params[:publisher].nil?
-          citation += '.' + params[:date_published].year.to_s unless params[:date_published].nil?
+          #citation += ',' + params[:date_published].year.to_s unless params[:date_published].nil?
           params[:citation] = citation
         else
           params[:title] = params[:booktitle]
           citation = params[:publisher] unless params[:publisher].nil?
-          citation += '. ' + params[:date_published].year.to_s unless params[:date_published].nil?
+          #citation += '. ' + params[:date_published].year.to_s unless params[:date_published].nil?
           params[:citation] = citation
         end
 
@@ -228,8 +223,10 @@ module DOI
         end
 
         citation = article.find_first('//posted_content/item_number')
-        citation = citation.nil? ? '' : citation.content
-        citation += ' [Preprint]. ' + params[:date_published].year.to_s unless params[:date_published].nil?
+        citation = citation.empty? ? '' : citation.content
+        citation += citation.empty? ? '' : ','
+        citation += '[Preprint]'
+        #citation +=  params[:date_published].year.to_s unless params[:date_published].nil?
         params[:citation] = citation
       end
 
