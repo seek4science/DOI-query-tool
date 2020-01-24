@@ -223,7 +223,7 @@ module DOI
         end
 
         citation = article.find_first('//posted_content/item_number')
-        citation = citation.empty? ? '' : citation.content
+        citation = citation.nil? ? '' : citation.content
         citation += citation.empty? ? '' : ','
         citation += '[Preprint]'
         #citation +=  params[:date_published].year.to_s unless params[:date_published].nil?
