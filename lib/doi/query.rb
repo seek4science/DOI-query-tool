@@ -17,7 +17,6 @@ module DOI
       uri = URI(DOI.fetch_url)
       uri.query = URI.encode_www_form(params.delete_if { |k, _v| k.nil? }.to_a)
       url = uri.to_s
-      puts url
       begin
         res = open(url)
       rescue Exception => e
