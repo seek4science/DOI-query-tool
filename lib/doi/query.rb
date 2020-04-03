@@ -124,6 +124,7 @@ module DOI
                                 params[:journal]
                               end
         journal_issue = article.find_first('//journal_issue')
+        article_number = article.find_first('//journal_article/publisher_item/item_number').content
 
         unless journal_issue.nil?
           citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : nil
@@ -135,7 +136,7 @@ module DOI
         citation += citation_issue unless citation_issue .nil?
         citation += ':'+ citation_first_page unless citation_first_page.nil?
         citation += '-'+citation_last_page unless citation_last_page.nil?
-        #citation += ' '+params[:date_published].year.to_s
+        citation += ','+ article_number unless article.nil?
         params[:citation] = citation
 
       when :proceedings, :inproceedings
@@ -172,14 +173,14 @@ module DOI
         params[:citation] += page unless citation_first_page.nil?
         params[:citation] += ',' unless citation_first_page.nil?
         params[:citation] += params[:publisher] unless params[:publisher].nil?
-        #params[:citation] += '.' + year unless year.nil?
 
       when :book_chapter, :book
         booktitle = article.find_first('//book_series_metadata/titles/title')
+        booktitle ||= article.find_first('//book_series_metadata/series_metadata/titles/title')
         booktitle ||= article.find_first('//book_metadata/titles/title')
         booktitle ||= article.find_first('//book_set_metadata/titles/title')
 
-        params[:booktitle] = booktitle.nil? ? nil : booktitle.content
+        params[:booktitle] = booktitle.nil? ? '' : booktitle.content
         publisher = article.find_first('//book_series_metadata/publisher/publisher_name')
         publisher ||=  article.find_first('//book_metadata/publisher/publisher_name')
         publisher ||=  article.find_first('//book_set_metadata/publisher/publisher_name')
