@@ -17,6 +17,7 @@ module DOI
       uri = URI(DOI.fetch_url)
       uri.query = URI.encode_www_form(params.delete_if { |k, _v| k.nil? }.to_a)
       url = uri.to_s
+      #puts url.inspect
       begin
         res = open(url)
       rescue Exception => e
@@ -125,6 +126,7 @@ module DOI
         journal_issue = article.find_first('//journal_issue')
         article_number = article.find_first("//journal_article/publisher_item/item_number[@item_number_type='article_number']") ? article.find_first("//journal_article/publisher_item/item_number[@item_number_type='article_number']").content : nil
         article_number ||= article.find_first("//journal_article/publisher_item/item_number[@item_number_type='article-number']") ? article.find_first("//journal_article/publisher_item/item_number[@item_number_type='article-number']").content : nil
+        article_number ||= article.find_first("//journal_article/publisher_item/item_number[@item_number_type='sequence-number']") ? article.find_first("//journal_article/publisher_item/item_number[@item_number_type='sequence-number']").content : nil
 
         unless journal_issue.nil?
           citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : nil
