@@ -123,7 +123,7 @@ module DOI
                                 params[:journal]
                               end
         journal_issue = article.find_first('//journal_issue')
-        article_number = article.find_first('//journal_article/publisher_item/item_number').content
+        article_number = article.find_first('//journal_article/publisher_item/item_number') ? article.find_first('//journal_article/publisher_item/item_number').content : nil
 
         unless journal_issue.nil?
           citation_volume = journal_issue.find_first('.//volume') ? journal_issue.find_first('.//volume').content : nil
@@ -135,7 +135,7 @@ module DOI
         citation += citation_issue unless citation_issue .nil?
         citation += ':'+ citation_first_page unless citation_first_page.nil?
         citation += '-'+citation_last_page unless citation_last_page.nil?
-        citation += ','+ article_number unless article.nil?
+        citation += ','+ article_number unless article_number.nil?
         params[:citation] = citation
 
       when :proceedings, :inproceedings
