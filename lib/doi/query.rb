@@ -61,6 +61,12 @@ module DOI
 
     def process_content(doc)
 
+      # Remove components-> supplemental material
+      component_list = doc.find_first("//component_list")
+      unless component_list.nil?
+        component_list.remove!
+      end
+
       params = {}
 
       params[:doi] = doc.find_first('//doi').nil? ? nil : doc.find_first('//doi').content
@@ -106,6 +112,10 @@ module DOI
                         else
                           :other
                         end
+      end
+
+      if article.nil?
+        raise RecordNotSupported
       end
 
       case params[:type]
@@ -234,9 +244,7 @@ module DOI
       end
 
       params[:authors] = []
-      known_authors = Set[]
       params[:editors] = []
-      known_editors = Set[]
 
       # proceedings have no authors
       author_elements = article.find("//content_item/contributors/person_name[@contributor_role='author']")
@@ -246,12 +254,7 @@ module DOI
       author_elements.each do |author|
         author_last_name = author.find_first('.//surname').nil? ? '' : author.find_first('.//surname').content
         author_first_name = author.find_first('.//given_name').nil? ? '' : author.find_first('.//given_name').content
-        newAuthor = DOI::Author.new(author_first_name, author_last_name)
-
-        unless known_authors === newAuthor
-          params[:authors] << newAuthor
-          known_authors.add(newAuthor)
-        end
+        params[:authors] << DOI::Author.new(author_first_name, author_last_name)
       end
 
       editor_elements = article.find("//content_item/contributors/person_name[@contributor_role='editor']")
@@ -260,12 +263,7 @@ module DOI
       editor_elements.each do |editor|
         editor_last_name = editor.find_first('.//surname').nil? ? '' : editor.find_first('.//surname').content
         editor_first_name = editor.find_first('.//given_name').nil? ? '' : editor.find_first('.//given_name').content
-        newEditor = DOI::Author.new(editor_first_name, editor_last_name)
-
-        unless known_editors === newEditor
-          params[:editors] << newEditor
-          known_editors.add(newEditor)
-        end
+        params[:editors] << DOI::Editor.new(editor_first_name, editor_last_name)
       end
 
       # in case of proceedings, there are no authors but editors
