@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'doi_query_tool'
-  s.version     = '1.0.0'
+  s.version     = '1.0.1'
   s.date        = '2017-02-27'
   s.summary     = 'Download DOI publication metadata from crossref.org'
   s.authors     = ['Finn Bacall', 'Ian Dunlop', 'Quyen Nguyen','Xiaoming Hu']
