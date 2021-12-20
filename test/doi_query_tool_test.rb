@@ -51,8 +51,9 @@ class DoiQueryToolTest < Test::Unit::TestCase
   def test_article_doi
     VCR.use_cassette('fetch_article_doi') do
       result = @client.fetch('10.1214/17-AOAS122ED')
+      pp result
       assert_equal :journal, result.publication_type
-      assert_equal 'Ann. Appl. Stat. 12(2):iii-x', result.citation
+      assert_equal 'Ann. Appl. Stat. 12(2)', result.citation
     end
   end
 
