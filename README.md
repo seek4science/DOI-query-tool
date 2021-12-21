@@ -13,9 +13,7 @@ gem 'doi_query_tool', git: 'https://github.com/seek4science/DOI-query-tool.git'
 
 ## Example
 Replace `email_address` with the one registered at crossref.
-```
-#replace email_address with the one registered at crossref
-
+```ruby
 email_address="me@somewhere.com"
 doi = "10.1007/978-3-540-70504-8_9"
 
