@@ -51,8 +51,9 @@ class DoiQueryToolTest < Test::Unit::TestCase
   def test_article_doi
     VCR.use_cassette('fetch_article_doi') do
       result = @client.fetch('10.1214/17-AOAS122ED')
+      pp result
       assert_equal :journal, result.publication_type
-      assert_equal 'Ann. Appl. Stat. 12(2):iii-x', result.citation
+      assert_equal 'Ann. Appl. Stat. 12(2)', result.citation
     end
   end
 
@@ -100,7 +101,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
       assert_equal'10.18653/v1/W18-08',result.doi
       assert_equal :proceedings, result.publication_type
       assert_equal 'Proceedings of the Second ACL Workshop on Ethics in Natural Language Processing', result.title
-      assert_equal 'Proceedings of the Second ACL Workshop on Ethics in Natural Language Processing',result.booktitle
+      assert_equal 'Proceedings of the Second ACL Workshop on Ethics in Natural Language Processing', result.booktitle
       assert_equal 'Proceedings of the Second ACL Workshop on Ethics in Natural Language Processing,Association for Computational Linguistics', result.citation
       assert_equal 'Proceedings of the Second ACL Workshop on Ethics in Natural Language Processing, New Orleans, Louisiana, USA, June 2018', result.conference
       assert_equal 0, result.authors.size
@@ -167,6 +168,22 @@ class DoiQueryToolTest < Test::Unit::TestCase
     DOI.lookup_url = 'http://somewhere.else'
     record = DOI::Record.new(doi: '10.1101/105437')
     assert_equal 'http://somewhere.else/10.1101/105437', record.lookup_url
+  end
+
+  def test_no_extra_authors_from_components
+    VCR.use_cassette('extra_authors_in_components') do
+      result = @client.fetch('10.3897/rio.6.e57602')
+      assert_equal 14, result.authors.size
+    end
+  end
+
+  def test_dataset_not_supported
+    VCR.use_cassette('dataset_support') do
+      assert_raises(DOI::RecordNotSupported) do
+        result = @client.fetch('10.13003/83B2GP')
+      end
+      # assert "March 2020 Public Data File ", result.title
+    end
   end
 end
 

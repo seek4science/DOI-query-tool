@@ -19,4 +19,5 @@ module DOI
   class ParseException < MyException; end
   class MalformedDOIException < MyException; end
   class NotFoundException < MyException; end
+  class RecordNotSupported < MyException; end
 end

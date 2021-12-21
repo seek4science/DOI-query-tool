@@ -2,6 +2,7 @@ module DOI
   require 'rubygems'
   require 'xml'
   require 'open-uri'
+  require 'set'
 
   require 'doi/author'
   require 'doi/editor'

@@ -61,6 +61,12 @@ module DOI
 
     def process_content(doc)
 
+      # Remove components-> supplemental material
+      component_list = doc.find_first("//component_list")
+      unless component_list.nil?
+        component_list.remove!
+      end
+
       params = {}
 
       params[:doi] = doc.find_first('//doi').nil? ? nil : doc.find_first('//doi').content
@@ -106,6 +112,10 @@ module DOI
                         else
                           :other
                         end
+      end
+
+      if article.nil?
+        raise RecordNotSupported
       end
 
       case params[:type]
