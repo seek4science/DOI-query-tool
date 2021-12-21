@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    doi_query_tool (1.0.0)
+    doi_query_tool (1.0.1)
       libxml-ruby (>= 2.6.0)
 
 GEM
@@ -9,15 +9,17 @@ GEM
   specs:
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
-    crack (0.4.3)
-      safe_yaml (~> 1.0.0)
+    crack (0.4.5)
+      rexml
     docile (1.3.2)
-    hashdiff (1.0.0)
+    hashdiff (1.0.1)
     json (2.6.1)
-    libxml-ruby (3.1.0)
+    libxml-ruby (3.2.1)
     power_assert (1.1.5)
     public_suffix (4.0.6)
-    safe_yaml (1.0.5)
+    rake (13.0.6)
+    rdoc (6.3.3)
+    rexml (3.2.5)
     simplecov (0.17.1)
       docile (~> 1.1)
       json (>= 1.8, < 3)
@@ -26,20 +28,22 @@ GEM
     test-unit (3.3.4)
       power_assert
     vcr (3.0.3)
-    webmock (2.3.2)
-      addressable (>= 2.3.6)
+    webmock (3.14.0)
+      addressable (>= 2.8.0)
       crack (>= 0.3.2)
-      hashdiff
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
   doi_query_tool!
+  rake (~> 13.0.0)
+  rdoc
   simplecov
   test-unit
   vcr (~> 3.0.3)
-  webmock (~> 2.3.1)
+  webmock (~> 3.14.0)
 
 BUNDLED WITH
    1.17.3
