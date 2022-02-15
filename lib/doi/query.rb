@@ -20,7 +20,7 @@ module DOI
 
       begin
         res = URI.open(url)
-      rescue Exception => e
+      rescue Exception
         raise DOI::FetchException
       end
 
@@ -127,7 +127,6 @@ module DOI
         journal_metadata = article.find_first('//journal_metadata')
         journal = journal_metadata.find_first('.//full_title')
         params[:journal] = journal.nil? ? nil : journal.content
-        citation_iso_abbrev = ''
         citation_iso_abbrev = if journal_metadata.find_first('.//abbrev_title')
                                 journal_metadata.find_first('.//abbrev_title').content
                               else
@@ -171,7 +170,7 @@ module DOI
           params[:booktitle] = proceedings_metadata.find_first('.//proceedings_title').nil? ? nil : proceedings_metadata.find_first('.//proceedings_title').content
           params[:booktitle] = proceedings_metadata.find_first('.//title').nil? ? nil : proceedings_metadata.find_first('.//title').content if params[:booktitle].nil?
           params[:publisher] = proceedings_metadata.find_first('.//publisher/publisher_name').nil? ? nil : proceedings_metadata.find_first('.//publisher/publisher_name').content
-          year = proceedings_metadata.find_first('.//publication_date/year').nil? ? nil : proceedings_metadata.find_first('.//publication_date/year').content
+          #year = proceedings_metadata.find_first('.//publication_date/year').nil? ? nil : proceedings_metadata.find_first('.//publication_date/year').content
         end
 
         conference_paper = article.find_first('//conference_paper')

@@ -62,7 +62,7 @@ class DoiQueryToolTest < Test::Unit::TestCase
       assert_equal 'An Isolated Complex V Inefficiency and Dysregulated Mitochondrial Function in Immortalized Lymphocytes from ME/CFS Patients', result.title
       assert_equal 'Daniel', result.authors.first.first_name
       assert_equal :pre_print, result.publication_type
-      assert_match /[Preprint]/, result.citation
+      assert_match(/\[Preprint\]/, result.citation)
     end
   end
 
@@ -179,9 +179,8 @@ class DoiQueryToolTest < Test::Unit::TestCase
   def test_dataset_not_supported
     VCR.use_cassette('dataset_support') do
       assert_raises(DOI::RecordNotSupported) do
-        result = @client.fetch('10.13003/83B2GP')
+        @client.fetch('10.13003/83B2GP')
       end
-      # assert "March 2020 Public Data File ", result.title
     end
   end
 end
